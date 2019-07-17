@@ -21,6 +21,8 @@ import java.util.Locale;
 
 public class LoginProcess {
 
+    private static LoginProcess loginProcess;
+
     private Context context = null;
     private String userName = null;
     private String password = null;
@@ -28,13 +30,24 @@ public class LoginProcess {
     private OnLoginPostExecute onLoginPostExecute = null;
     private CognitoConfigModel cognitoConfigModel = null;
 
-    public LoginProcess(Context context, String userName, String password, String firebaseInstanceId, CognitoConfigModel cognitoConfigModel, OnLoginPostExecute onLoginPostExecute){
+    private LoginProcess(Context context, String userName, String password, String firebaseInstanceId, CognitoConfigModel cognitoConfigModel, OnLoginPostExecute onLoginPostExecute){
         this.context = context;
         this.userName = userName;
         this.password = password;
         this.firebaseInstanceId = firebaseInstanceId;
         this.cognitoConfigModel = cognitoConfigModel;
         this.onLoginPostExecute = onLoginPostExecute;
+    }
+
+    public static LoginProcess init(Context context, String userName, String password, String firebaseInstanceId, CognitoConfigModel cognitoConfigModel, OnLoginPostExecute onLoginPostExecute){
+        if (loginProcess == null){
+            synchronized (LoginProcess.class){
+                if (loginProcess == null){
+                    loginProcess = new LoginProcess(context, userName, password, firebaseInstanceId, cognitoConfigModel, onLoginPostExecute);
+                }
+            }
+        }
+        return loginProcess;
     }
 
     public void onVerifyMfaCode(MultiFactorAuthenticationContinuation multiFactorAuthenticationContinuation, String mfaCode) {
