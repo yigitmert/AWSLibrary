@@ -69,7 +69,7 @@ public class LoginProcess {
             CognitoUtil.newDevice(device);
 
             if (cognitoConfigModel.isCreateSnsArnId()){
-                new SnsProcess(context, cognitoUserSession.getIdToken().getJWTToken(), firebaseInstanceId, cognitoConfigModel, new OnSnsPostExecute() {
+                SnsProcess snsProcess = SnsProcess.init(context, cognitoUserSession.getIdToken().getJWTToken(), firebaseInstanceId, cognitoConfigModel, new OnSnsPostExecute() {
                     @Override
                     public void onSnsSuccess(String snsArnId) {
                         onLoginPostExecute.onLoginSuccess(new LoginSnsResponseModel(cognitoUserSession, snsArnId));
@@ -80,6 +80,7 @@ public class LoginProcess {
                         onLoginPostExecute.onLoginSuccess(new LoginSnsResponseModel(cognitoUserSession, null));
                     }
                 });
+                snsProcess.createEndpointForSns();
             }
             else{
                 onLoginPostExecute.onLoginSuccess(new LoginSnsResponseModel(cognitoUserSession, null));

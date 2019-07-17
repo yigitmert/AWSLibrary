@@ -27,6 +27,8 @@ import java.util.regex.Pattern;
 
 public class SnsProcess {
 
+    private static SnsProcess snsProcess;
+
     private Context context = null;
     private CognitoConfigModel cognitoConfigModel = null;
     private OnSnsPostExecute onSnsPostExecute = null;
@@ -37,7 +39,7 @@ public class SnsProcess {
     private AmazonSNSClient snsClient = null;
     private String arnStorage = null;
 
-    public SnsProcess(Context context, String jwtToken, String firebaseInstanceId, CognitoConfigModel cognitoConfigModel, OnSnsPostExecute onSnsPostExecute){
+    private SnsProcess(Context context, String jwtToken, String firebaseInstanceId, CognitoConfigModel cognitoConfigModel, OnSnsPostExecute onSnsPostExecute){
         this.context = context;
         this.jwtToken = jwtToken;
         this.firebaseInstanceId = firebaseInstanceId;
@@ -45,7 +47,18 @@ public class SnsProcess {
         this.onSnsPostExecute = onSnsPostExecute;
     }
 
-    public void createEndpointForSns(String jwtToken) {
+    public static SnsProcess init(Context context, String jwtToken, String firebaseInstanceId, CognitoConfigModel cognitoConfigModel, OnSnsPostExecute onSnsPostExecute){
+        if (snsProcess == null){
+            synchronized (SnsProcess.class){
+                if (snsProcess == null){
+                    snsProcess = new SnsProcess(context, jwtToken, firebaseInstanceId, cognitoConfigModel, onSnsPostExecute);
+                }
+            }
+        }
+        return snsProcess;
+    }
+
+    public void createEndpointForSns() {
         CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(context, cognitoConfigModel.getCognitoIdentityPoolId(), cognitoConfigModel.getCognitoRegion());
 
         Map<String, String> logins = new HashMap<String, String>();
