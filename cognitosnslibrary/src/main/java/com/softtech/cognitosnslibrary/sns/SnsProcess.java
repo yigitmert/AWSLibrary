@@ -2,6 +2,7 @@ package com.softtech.cognitosnslibrary.sns;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
@@ -62,7 +63,7 @@ public class SnsProcess {
         CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(context, cognitoConfigModel.getCognitoIdentityPoolId(), cognitoConfigModel.getCognitoRegion());
 
         Map<String, String> logins = new HashMap<String, String>();
-        logins.put(cognitoConfigModel.getRegionStringValue() + cognitoConfigModel.getUserPoolId(), jwtToken);
+        logins.put(cognitoConfigModel.getRegionStringValue() + "/" + cognitoConfigModel.getUserPoolId(), jwtToken);
         credentialsProvider.setLogins(logins);
 
         snsClient = new AmazonSNSClient(credentialsProvider);
@@ -143,6 +144,7 @@ public class SnsProcess {
         try {
             Map<String, String> endpointAtt = new HashMap<String, String>();
             endpointAtt.put("UserId", CognitoUtil.getCurrSession().getUsername());
+            Log.d("******", "CognitoUtil.getCurrSession().getUsername() : " + CognitoUtil.getCurrSession().getUsername());
             CreatePlatformEndpointRequest cpeReq = new CreatePlatformEndpointRequest()
                     .withPlatformApplicationArn(cognitoConfigModel.getSnsPlatformApplicationArn())
                     .withToken(token)
