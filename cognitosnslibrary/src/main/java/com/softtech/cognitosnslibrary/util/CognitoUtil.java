@@ -73,7 +73,7 @@ public class CognitoUtil {
 
     private static Set<String> currUserAttributes;
 
-    public static void init(Context context, CognitoConfigModel cognitoConfigModel) {
+    private static void init(Context context, CognitoConfigModel cognitoConfigModel) {
 
         if (appHelper != null && userPool != null) {
             return;
