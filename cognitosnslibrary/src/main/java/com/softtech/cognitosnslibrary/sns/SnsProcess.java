@@ -60,10 +60,10 @@ public class SnsProcess {
     }
 
     public void createEndpointForSns() {
-        CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(context, cognitoConfigModel.getCognitoIdentityPoolId(), cognitoConfigModel.getCognitoRegion());
+        CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(context, cognitoConfigModel.getSnsConfigModel().getCognitoIdentityPoolId(), cognitoConfigModel.getCognitoRegion());
 
         Map<String, String> logins = new HashMap<String, String>();
-        logins.put(cognitoConfigModel.getRegionStringValue() + "/" + cognitoConfigModel.getUserPoolId(), jwtToken);
+        logins.put(cognitoConfigModel.getSnsConfigModel().getRegionStringValue() + "/" + cognitoConfigModel.getUserPoolId(), jwtToken);
         credentialsProvider.setLogins(logins);
 
         snsClient = new AmazonSNSClient(credentialsProvider);
@@ -146,7 +146,7 @@ public class SnsProcess {
             endpointAtt.put("UserId", CognitoUtil.getCurrSession().getUsername());
             Log.d("******", "CognitoUtil.getCurrSession().getUsername() : " + CognitoUtil.getCurrSession().getUsername());
             CreatePlatformEndpointRequest cpeReq = new CreatePlatformEndpointRequest()
-                    .withPlatformApplicationArn(cognitoConfigModel.getSnsPlatformApplicationArn())
+                    .withPlatformApplicationArn(cognitoConfigModel.getSnsConfigModel().getSnsPlatformApplicationArn())
                     .withToken(token)
                     .withAttributes(endpointAtt);
             CreatePlatformEndpointResult cpeRes = snsClient.createPlatformEndpoint(cpeReq);

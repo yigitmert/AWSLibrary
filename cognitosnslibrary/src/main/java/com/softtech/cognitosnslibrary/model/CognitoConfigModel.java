@@ -10,18 +10,15 @@ public class CognitoConfigModel {
     private String clientId = null;
     private String clientSecret = null;
     private Regions cognitoRegion = null;
-    private String snsPlatformApplicationArn = null;
-    private String cognitoIdentityPoolId = null;
-    private String regionStringValue = "cognito-idp.eu-central-1.amazonaws.com";
+    private SnsConfigModel snsConfigModel = null;
 
-    private boolean isCreateSnsArnId = false;
-
-    public CognitoConfigModel(String userPoolId, String clientId, String clientSecret, Regions cognitoRegion, boolean isCustomAuthMode){
+    public CognitoConfigModel(String userPoolId, String clientId, String clientSecret, Regions cognitoRegion, boolean isCustomAuthMode, SnsConfigModel snsConfigModel){
         this.userPoolId = userPoolId;
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.cognitoRegion = cognitoRegion;
         this.isCustomAuthMode = isCustomAuthMode;
+        this.snsConfigModel = snsConfigModel;
     }
 
     public String getUserPoolId() {
@@ -56,14 +53,6 @@ public class CognitoConfigModel {
         this.cognitoRegion = cognitoRegion;
     }
 
-    public boolean isCreateSnsArnId() {
-        return isCreateSnsArnId;
-    }
-
-    public void setCreateSnsArnId(boolean createSnsArnId) {
-        isCreateSnsArnId = createSnsArnId;
-    }
-
     public boolean isCustomAuthMode() {
         return isCustomAuthMode;
     }
@@ -72,27 +61,11 @@ public class CognitoConfigModel {
         isCustomAuthMode = customAuthMode;
     }
 
-    public String getSnsPlatformApplicationArn() {
-        return snsPlatformApplicationArn;
+    public SnsConfigModel getSnsConfigModel() {
+        return snsConfigModel;
     }
 
-    public void setSnsPlatformApplicationArn(String snsPlatformApplicationArn) {
-        this.snsPlatformApplicationArn = snsPlatformApplicationArn;
-    }
-
-    public String getCognitoIdentityPoolId() {
-        return cognitoIdentityPoolId;
-    }
-
-    public void setCognitoIdentityPoolId(String cognitoIdentityPoolId) {
-        this.cognitoIdentityPoolId = cognitoIdentityPoolId;
-    }
-
-    public String getRegionStringValue() {
-        return regionStringValue;
-    }
-
-    public void setRegionStringValue(String regionStringValue) {
-        this.regionStringValue = regionStringValue;
+    public void setSnsConfigModel(SnsConfigModel snsConfigModel) {
+        this.snsConfigModel = snsConfigModel;
     }
 }

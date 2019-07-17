@@ -69,7 +69,7 @@ public class LoginProcess {
             CognitoUtil.setCurrSession(cognitoUserSession);
             CognitoUtil.newDevice(device);
 
-            if (cognitoConfigModel.isCreateSnsArnId()){
+            if (cognitoConfigModel.getSnsConfigModel() != null){
                 SnsProcess snsProcess = SnsProcess.init(context, cognitoUserSession.getIdToken().getJWTToken(), firebaseInstanceId, cognitoConfigModel, new OnSnsPostExecute() {
                     @Override
                     public void onSnsSuccess(String snsArnId) {
