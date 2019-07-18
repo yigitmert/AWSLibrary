@@ -40,6 +40,18 @@ public class SignUpProcess {
         return signUpProcess;
     }
 
+    public void setOnSignUpPostExecute(OnSignUpPostExecute onSignUpPostExecute){
+        this.onSignUpPostExecute = onSignUpPostExecute;
+    }
+
+    public void setCognitoConfigModel(CognitoConfigModel cognitoConfigModel){
+        this.cognitoConfigModel = cognitoConfigModel;
+    }
+
+    public void setSignUpInfoModel(SignUpInfoModel signUpInfoModel){
+        this.signUpInfoModel = signUpInfoModel;
+    }
+
     public void signUp(){
         CognitoUtil.setPool(context, cognitoConfigModel);
 

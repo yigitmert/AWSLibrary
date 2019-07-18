@@ -55,6 +55,26 @@ public class LoginProcess {
         return loginProcess;
     }
 
+    public void setUserName(String userName){
+        this.userName = userName;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
+    }
+
+    public void setFirebaseInstanceId(String firebaseInstanceId){
+        this.firebaseInstanceId = firebaseInstanceId;
+    }
+
+    public void setCognitoConfigModel(CognitoConfigModel cognitoConfigModel){
+        this.cognitoConfigModel = cognitoConfigModel;
+    }
+
+    public void setOnLoginPostExecute(OnLoginPostExecute onLoginPostExecute){
+        this.onLoginPostExecute = onLoginPostExecute;
+    }
+
     public void onVerifyMfaCode(MultiFactorAuthenticationContinuation multiFactorAuthenticationContinuation, String mfaCode) {
         multiFactorAuthenticationContinuation.setMfaCode(mfaCode);
         multiFactorAuthenticationContinuation.continueTask();
